@@ -1,0 +1,87 @@
+
+header {
+  backdrop-filter: blur(4px);
+}
+.shrink-search {
+  max-width: 380px; 
+  width: 100%;
+}
+#carouselExampleIndicators .carousel-inner {
+  max-height: 450px; 
+}
+#carouselExampleIndicators .carousel-item img {
+  height: 100%;
+  object-fit: cover; 
+}
+.account-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+  z-index: 1050;
+}
+.account-dialog {
+  max-width: 360px;
+  width: 100%;
+}
+
+#sideMenu {
+  background-color: #f8f9fa; 
+  border-right: 1px solid #dee2e6;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+
+.offcanvas-header {
+  border-bottom: 1px solid #e9ecef; 
+  padding: 1.5rem;
+}
+
+.offcanvas-header .fw-semibold {
+  color: #343a40; 
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+
+.offcanvas-body {
+  padding: 0;
+}
+
+
+.offcanvas-body .list-unstyled {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.offcanvas-body li {
+  border-bottom: 1px solid #e9ecef; 
+}
+
+
+.offcanvas-body .nav-link {
+  display: block;
+  padding: 1rem 1.5rem; 
+  color: #495057; 
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+
+.offcanvas-body .nav-link:hover,
+.offcanvas-body .nav-link:focus {
+  background-color: #e2e6ea; 
+  color: #007bff; 
+  text-decoration: none;
+}
+@media (max-width: 576px) {
+  #sideMenu {
+    width: 65vw !important;
+  }
+}

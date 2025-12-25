@@ -1,0 +1,55 @@
+# ===============================
+# Node / React / Vite
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===============================
+# Environment variables
+# ===============================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# ===============================
+# Build outputs
+# ===============================
+client/dist/
+admin/dist/
+backend/dist/
+
+# ===============================
+# Vite / React cache
+# ===============================
+client/.vite/
+admin/.vite/
+
+# ===============================
+# Logs
+# ===============================
+logs/
+*.log
+
+# ===============================
+# OS / Editor
+# ===============================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===============================
+# Uploads (IMPORTANT)
+# ===============================
+backend/uploads/
+
+# ===============================
+# Misc
+# ===============================
+coverage/
+.cache/
