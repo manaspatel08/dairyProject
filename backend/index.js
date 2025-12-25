@@ -18,15 +18,8 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "http://127.0.0.1:5173",
-  "http://192.168.0.127:5173" ,
-  "http://192.168.0.127:5174",
-  "http://192.168.0.114:5173",
-  "http://192.168.0.114:5174",
-  "http://10.171.184.166:5173",
-  "http://10.171.184.166:5174",
-  "http://192.168.0.131:5173",
-  "http://192.168.0.131:5174"
+  "https://dairy-project-cj2e.vercel.app",
+  "https://dairy-project-kohl.vercel.app"
 ];
 
 app.use(cors({
@@ -40,7 +33,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 // app.use( express.static('uploads'));
 connectDb()
 app.get('/', (req, res) => {

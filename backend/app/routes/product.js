@@ -12,8 +12,10 @@ router.get("/search", searchProducts);
 
 router.get("/:id", getProductById);
  
-router.post("/",verifyToken,setBaseUrl,upload.single("imageUrl"),createProduct);
-router.put("/:id", verifyToken, allowRoles("admin", "super_admin"), setBaseUrl,  upload.single("imageUrl"),updateProduct);
+// router.post("/",verifyToken,setBaseUrl,upload.single("imageUrl"),createProduct);
+router.post("/", verifyToken, upload.single("imageUrl"), createProduct);
+
+router.put("/:id", verifyToken, allowRoles("admin", "super_admin"),  upload.single("imageUrl"),updateProduct);
 router.delete("/:id",verifyToken,allowRoles("admin", "super_admin"),deleteProduct);
 
 export default router;

@@ -21,10 +21,13 @@ export const createProduct = async (req, res) => {
     } = req.body;
 
     
-    const filename = req.file ? req.file.filename : null;
-    console.log(filename)
-    const product_photo = filename ? `/uploads/${filename}`: null; 
+    // const filename = req.file ? req.file.filename : null;
+    // console.log(filename)
+    // const product_photo = filename ? `/uploads/${filename}`: null; 
     // const product_photo = filename ; 
+
+const imageUrl = req.file?.path || null; // Cloudinary URL
+
 
     if (!name || price == null || !storeId || !categoryId) {
       return handleResponse(
@@ -68,7 +71,7 @@ export const createProduct = async (req, res) => {
       stock,
       store: storeId,
       category: categoryId,
-      imageUrl : product_photo
+      imageUrl 
     });
 
       const populated = await Product.findById(product._id)
