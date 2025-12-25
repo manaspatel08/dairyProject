@@ -7,7 +7,7 @@ import axios from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function CartPage() {
   const { cart, loading, incrementProduct, decrementProduct, deleteFromCart } =

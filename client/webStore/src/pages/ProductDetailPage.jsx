@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
 import AddToCartButton from "../components/AddToCartButton";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function ProductDetailPage() {
   const { id } = useParams();

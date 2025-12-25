@@ -7,7 +7,7 @@ import { CiHeart } from "react-icons/ci";
 import { useWishlist } from "../context/WishlistContext";
 
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function ProductCard({ product, onAdd }) {
   const navigate = useNavigate();
