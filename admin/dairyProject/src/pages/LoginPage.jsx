@@ -218,16 +218,18 @@ export default function LoginPage() {
         } catch (err) {
           console.log("Store not found for admin:", err);
         }
+        setMessage(data.message || "Login successful");
       }
 
-      setMessage(data.message || "Login successful");
 
       if (role === "super_admin") {
-        navigate("/superadmin/dashboard");
+         setMessage( "only super_admin can login");
+        //navigate("/superadmin/dashboard");
       } else if (role === "admin") {
         navigate("/admin/dashboard");
       } else if (role === "customer") {
-        navigate("/customer/home");
+             setMessage( "only admin can login");
+        // navigate("/customer/home");
       } else {
         navigate("/");
       }
