@@ -1,7 +1,7 @@
 import express from "express";
 import {createProduct,updateProduct,deleteProduct,getAllProducts,getProductByStore,getProductById,searchProducts,} from "../controller/productController.js";
 import { verifyToken, allowRoles } from "../middleware/auth.js";
-import upload, { setBaseUrl } from "../middleware/fileUploader.js";
+import upload from "../middleware/fileUploader.js";
 
 const router = express.Router();
 
