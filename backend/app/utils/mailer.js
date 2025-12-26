@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
+    user: process.env.BREVO_SMTP_USER,
+    pass: process.env.BREVO_SMTP_PASS,
   },
 });
 
@@ -30,7 +30,7 @@ export const sendMail = async ({ to, subject, html, text }) => {
     }
 
     await transporter.sendMail({
-      from: `"Dairy Product" <${process.env.BREVO_USER}>`,
+      from: `"Dairy Product" <${process.env.BREVO_FROM_EMAIL}>`,
       to,
       subject,
       html,
