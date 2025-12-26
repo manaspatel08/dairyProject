@@ -391,7 +391,7 @@ export default function ProductListPage() {
                     <td>
                       {p.imageUrl ? (
                         <img 
-                          src={`${BASE_URL}${p.imageUrl}`} 
+                          src={`${p.imageUrl}`} 
                           alt={p.name} 
                           style={{ width: '40px', height: '40px', objectFit: 'cover' }} 
                           className="rounded"

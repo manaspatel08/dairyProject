@@ -159,7 +159,7 @@ const WishlistPage = () => {
                   <div className="position-relative ">
                     <img 
                       
-                      src={`${BASE_URL}${product.imageUrl}`} 
+                      src={`${product.imageUrl}`} 
                       className="card-img-top"
                       alt={product.name}
                       style={{ height:160, objectFit: 'contain' }}

@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
               <div className="border rounded-3 bg-white p-3 h-100 d-flex flex-column">
                 <img
                
-                   src={`${BASE_URL}${product.imageUrl}`}
+                   src={`${product.imageUrl}`}
                   alt={product.name}
                   className="img-fluid mx-auto mb-3"
                   style={{ maxHeight: 320, objectFit: "contain" }}

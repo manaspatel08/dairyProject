@@ -164,7 +164,7 @@ export default function CartPage() {
                   <div key={productId} className="list-group-item">
                     <div className="d-flex gap-3">
                       <img
-                        src={`${BASE_URL}${it.imageUrl}`}
+                        src={`${it.imageUrl}`}
                         alt={it.name || it.product?.name || "Product"}
                         style={{ width: 90, height: 90, objectFit: "contain" }}
                       />

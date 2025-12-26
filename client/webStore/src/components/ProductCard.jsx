@@ -32,7 +32,7 @@ export default function ProductCard({ product, onAdd }) {
     <div className="product-card card h-100 shadow-sm" style={{ cursor: "pointer" }}>
       <div className="img-wrap position-relative" onClick={goToDetails}>
         <img
-        src={`${BASE_URL}${product.imageUrl}`} 
+        src={`${product.imageUrl}`} 
           alt={product.name}
           className="card-img-top product-img"
         />

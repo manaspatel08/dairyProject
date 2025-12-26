@@ -245,7 +245,7 @@ export default function AdminOrdersPage() {
                           {subscriptions.map((sub, idx) => (
                             <div key={sub._id || idx} className="d-flex align-items-center gap-2 mb-2">
                               <img
-                                src={`${BASE_URL}${sub.product.imageUrl}`} 
+                                src={`${sub.product.imageUrl}`} 
                                 alt={sub.product?.name || sub.productName || "Product"}
                                 style={{ width: 35, height: 35, objectFit: "cover", borderRadius: 4 }}
                               />

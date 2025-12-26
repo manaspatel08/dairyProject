@@ -348,7 +348,7 @@ export default function CreateStorePage() {
                             <td>
                               {product.imageUrl ? (
                                 <img 
-                                  src={`${BASE_URL}${product.imageUrl}`} 
+                                  src={`${product.imageUrl}`} 
                                   alt={product.name} 
                                   style={{ width: '40px', height: '40px', objectFit: 'cover' }} 
                                   className="rounded"
