@@ -4,6 +4,7 @@ import Store from "../models/store.js";
 import Category from "../models/category.js";
 import { handleResponse } from "../utils/handleResponse.js";
 import product from "../models/product.js";
+import cloudinary from "../config/cloudinary.js"; 
 
 export const createProduct = async (req, res) => {
   try {
@@ -114,9 +115,13 @@ console.log("BODY:", req.body);
       return handleResponse(res, 403, "You are not owner of this store");
     }
  
-      if (req.file) {
-      product.imageUrl = `/uploads/${req.file.filename}`;
-    }
+    if (req.file) {
+  const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+    folder: "dairyProject/products",
+  });
+
+  product.imageUrl = uploadResult.secure_url; // ✅ ALWAYS cloudinary
+}
     if (name !== undefined) product.name = name;
     if (price !== undefined) product.price = price;
     if (oldPrice !== undefined) product.oldPrice = oldPrice;
