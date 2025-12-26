@@ -4,14 +4,15 @@ dotenv.config();
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp-relay.brevo.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
+
 
 transporter.verify((err) => {
   if (err) {
@@ -29,7 +30,7 @@ export const sendMail = async ({ to, subject, html, text }) => {
     }
 
     await transporter.sendMail({
-      from: `"Dairy Product" <${process.env.EMAIL_USER}>`,
+      from: `"Dairy Product" <${process.env.BREVO_USER}>`,
       to,
       subject,
       html,
