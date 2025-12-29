@@ -14,13 +14,13 @@ const transporter = nodemailer.createTransport({
 });
 
 
-transporter.verify((err) => {
-  if (err) {
-    console.error("Email transporter error:", err);
-  } else {
-    console.log("Email transporter ready");
-  }
-});
+// transporter.verify((err) => {
+//   if (err) {
+//     console.error("Email transporter error:", err);
+//   } else {
+//     console.log("Email transporter ready");
+//   }
+// });
  
 export const sendMail = async ({ to, subject, html, text }) => {
   try {

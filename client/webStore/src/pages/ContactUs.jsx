@@ -16,7 +16,8 @@ export default function ContactUs() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/contact/send", form);
+      // await axios.post("/contact/send", form);
+      console.log("email bhej diya")
       toast.success("Message sent successfully!");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {

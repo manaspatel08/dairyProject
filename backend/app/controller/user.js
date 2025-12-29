@@ -54,35 +54,43 @@ export const createSuperAdmin = async (req, res) => {
 
 export const registerCustomer = async (req, res) => {
   try {
+    console.log("START");
+
+console.time("validation");
     const { error } = customerSchemaValidator.validate(req.body);
+    console.timeEnd("validation");
     if (error) {
       return handleResponse(res, 400, error.details[0].message);
     }
 
     const { email, password, mobileNo } = req.body;
-
+console.time("findUser");
     const userExists = await User.findOne({ email });
+    console.timeEnd("findUser");
     if (userExists) {
       return handleResponse(res, 409, "Email already exists.");
     }
-
+console.time("hash");
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.timeEnd("hash");
+    console.time("create");
     const newCustomer = await User.create({
       email,
       password: hashedPassword,
       mobileNo,
       role: "customer",
     });
+    console.timeEnd("create");
 
-await sendMail({
-  to: newCustomer.email,
-  subject: "Welcome to Dairy Product",
-  html: `
-    <h2>Welcome, ${newCustomer.name || newCustomer.email}!</h2>
-    <p>Thank you for registering at <b>DairyProduct</b>.</p>
-    <p>You can now order fresh dairy items and manage your subscriptions easily.</p>
-  `,
-});
+// await sendMail({
+//   to: newCustomer.email,
+//   subject: "Welcome to Dairy Product",
+//   html: `
+//     <h2>Welcome, ${newCustomer.name || newCustomer.email}!</h2>
+//     <p>Thank you for registering at <b>DairyProduct</b>.</p>
+//     <p>You can now order fresh dairy items and manage your subscriptions easily.</p>
+//   `,
+// });
 
     return handleResponse(
       res,

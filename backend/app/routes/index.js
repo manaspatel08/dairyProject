@@ -8,7 +8,7 @@ import subscriptionRoutes from "../routes/subscriptionRoutes.js";
 import deliveryPartnerRoutes from "../routes/deliveryPartnerRoutes.js";
   import paymentRoutes from "../routes/paymentRoutes.js";
   import subscriptionDraftRoutes from "../routes/subscriptionDraftRoutes.js"
-  import contactRoutes from "../routes/contactRoutes.js"
+  // import contactRoutes from "../routes/contactRoutes.js"
 
 const setUpRoutes = (app) => {
   app.use("/users", userRoutes);
@@ -21,7 +21,7 @@ const setUpRoutes = (app) => {
   app.use("/delivery-partners", deliveryPartnerRoutes);
   app.use("/payments", paymentRoutes);
   app.use("/subscription-draft", subscriptionDraftRoutes);
-  app.use("/contact",contactRoutes)
+  // app.use("/contact",contactRoutes)
 };
 
 export default setUpRoutes;
