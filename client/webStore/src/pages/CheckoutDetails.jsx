@@ -111,9 +111,11 @@ export default function CheckoutDetails() {
             });
             // toast.success("Payment successful");
             // toast.success("Order Placed")
-            navigate("/orders", {
-  state: { justPlaced: true }
-});
+          toast.success("Order Placed Successfully ✅");
+
+setTimeout(() => {
+  navigate("/orders");
+}, 1200);
           },
         }).open();
       };
