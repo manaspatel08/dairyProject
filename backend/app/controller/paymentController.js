@@ -8,9 +8,9 @@ import User from "../models/user.js";
 import Product from "../models/product.js";
 import DeliveryPartner from "../models/deliveryPartner.js";
 import { handleResponse } from "../utils/handleResponse.js";
-import { sendMail } from "../utils/mailer.js";
+// import { sendMail } from "../utils/mailer.js";
 import { SUBSCRIPTION_CONFIG } from "../config/subscriptionConfig.js";
-import { paymentSuccessEmail } from "../utils/emailTemplates/paymentSuccess.js";
+// import { paymentSuccessEmail } from "../utils/emailTemplates/paymentSuccess.js";
 import { computeNextDeliveryDate } from "../utils/subscriptionUtils.js";
 import SubscriptionDraft from "../models/subscriptionDraft.js";
 import { updateSubscriptionDraftFromCart } from "../utils/subscriptionUtils.js";
@@ -517,24 +517,24 @@ export const adminAssignPartnerToOrder = async (req, res) => {
       { deliveryPartner: partnerId || null }
     );
  
-    if (payment.user?.email) {
-      try {
-        const partner = partnerId ? await DeliveryPartner.findById(partnerId) : null;
-        await sendMail({
-          to: payment.user.email,
-          subject: "Delivery Partner Assigned",
-          html: `
-            <h3>Delivery Partner ${partnerId ? "Assigned" : "Removed"} For Your order</h3>
-            <p>Your order <strong>#${payment._id.toString().slice(-8)}</strong> has been ${partnerId ? "assigned" : "unassigned"} ${partnerId ? `to <strong>${partner?.name || "a delivery partner"}` : "from delivery partner"}.</strong></p>
-            ${partnerId && partner ? `<p><strong>Delivery Partner:</strong> ${partner.name}</p>` : ""}
-            ${partnerId && partner ? `<p><strong>Delivery Partner Eamil:</strong> ${partner.email}</p>` : ""}
-            ${partnerId && partner ? `<p><strong>Delivery Partner Phone:</strong> ${partner.phone}</p>` : ""}
-          `,
-        });
-      } catch (e) {
-        console.warn("Failed to send email:", e);
-      }
-    }
+    // if (payment.user?.email) {
+    //   try {
+    //     const partner = partnerId ? await DeliveryPartner.findById(partnerId) : null;
+    //     await sendMail({
+    //       to: payment.user.email,
+    //       subject: "Delivery Partner Assigned",
+    //       html: `
+    //         <h3>Delivery Partner ${partnerId ? "Assigned" : "Removed"} For Your order</h3>
+    //         <p>Your order <strong>#${payment._id.toString().slice(-8)}</strong> has been ${partnerId ? "assigned" : "unassigned"} ${partnerId ? `to <strong>${partner?.name || "a delivery partner"}` : "from delivery partner"}.</strong></p>
+    //         ${partnerId && partner ? `<p><strong>Delivery Partner:</strong> ${partner.name}</p>` : ""}
+    //         ${partnerId && partner ? `<p><strong>Delivery Partner Eamil:</strong> ${partner.email}</p>` : ""}
+    //         ${partnerId && partner ? `<p><strong>Delivery Partner Phone:</strong> ${partner.phone}</p>` : ""}
+    //       `,
+    //     });
+    //   } catch (e) {
+    //     console.warn("Failed to send email:", e);
+    //   }
+    // }
  
     const updatedPayment = await Payment.findById(paymentId)
       .populate("user", "name email")
