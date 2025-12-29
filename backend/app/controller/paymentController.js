@@ -424,21 +424,21 @@ export const verifyPayment = async (req, res) => {
           _id: { $in: finalSubscriptions }
         }).populate("product", "name imageUrl");
 
-        await sendMail({
-          to: user.email,
-          subject: "Payment Successful - Order Confirmed",
-          html: paymentSuccessEmail({
-            userName: user.name || user.email,
-            amount: amount,
-            paymentId: updatedPayment.razorpayPaymentId || updatedPayment.razorpayOrderId || updatedPayment._id.toString(),
-            orderId: updatedPayment._id.toString(),
-            items: updatedPayment.items || [],
-            subscriptions: populatedSubscriptions,
-            address: updatedPayment.address,
-            discountAmount: updatedPayment.discountAmount || 0,
-            platformFee: updatedPayment.platformFee || 0,
-          }),
-        });
+        // await sendMail({
+        //   to: user.email,
+        //   subject: "Payment Successful - Order Confirmed",
+        //   html: paymentSuccessEmail({
+        //     userName: user.name || user.email,
+        //     amount: amount,
+        //     paymentId: updatedPayment.razorpayPaymentId || updatedPayment.razorpayOrderId || updatedPayment._id.toString(),
+        //     orderId: updatedPayment._id.toString(),
+        //     items: updatedPayment.items || [],
+        //     subscriptions: populatedSubscriptions,
+        //     address: updatedPayment.address,
+        //     discountAmount: updatedPayment.discountAmount || 0,
+        //     platformFee: updatedPayment.platformFee || 0,
+        //   }),
+        // });
       }
     } catch (emailError) {
       console.error("Failed to send payment confirmation email:", emailError);
