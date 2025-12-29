@@ -412,38 +412,38 @@ export const verifyPayment = async (req, res) => {
       { new: true }
     );
  
-    try {
-      const user = await User.findById(payment.user);
-      if (user?.email) {
+    // try {
+    //   const user = await User.findById(payment.user);
+    //   if (user?.email) {
     
-        const amount = typeof updatedPayment.amount === "number" && updatedPayment.amount > 10000
-          ? (updatedPayment.amount / 100).toFixed(2)
-          : Number(updatedPayment.amount || 0).toFixed(2);
+    //     const amount = typeof updatedPayment.amount === "number" && updatedPayment.amount > 10000
+    //       ? (updatedPayment.amount / 100).toFixed(2)
+    //       : Number(updatedPayment.amount || 0).toFixed(2);
  
-        const populatedSubscriptions = await Subscription.find({
-          _id: { $in: finalSubscriptions }
-        }).populate("product", "name imageUrl");
+    //     const populatedSubscriptions = await Subscription.find({
+    //       _id: { $in: finalSubscriptions }
+    //     }).populate("product", "name imageUrl");
 
-        // await sendMail({
-        //   to: user.email,
-        //   subject: "Payment Successful - Order Confirmed",
-        //   html: paymentSuccessEmail({
-        //     userName: user.name || user.email,
-        //     amount: amount,
-        //     paymentId: updatedPayment.razorpayPaymentId || updatedPayment.razorpayOrderId || updatedPayment._id.toString(),
-        //     orderId: updatedPayment._id.toString(),
-        //     items: updatedPayment.items || [],
-        //     subscriptions: populatedSubscriptions,
-        //     address: updatedPayment.address,
-        //     discountAmount: updatedPayment.discountAmount || 0,
-        //     platformFee: updatedPayment.platformFee || 0,
-        //   }),
-        // });
-      }
-    } catch (emailError) {
-      console.error("Failed to send payment confirmation email:", emailError);
+    //     // await sendMail({
+    //     //   to: user.email,
+    //     //   subject: "Payment Successful - Order Confirmed",
+    //     //   html: paymentSuccessEmail({
+    //     //     userName: user.name || user.email,
+    //     //     amount: amount,
+    //     //     paymentId: updatedPayment.razorpayPaymentId || updatedPayment.razorpayOrderId || updatedPayment._id.toString(),
+    //     //     orderId: updatedPayment._id.toString(),
+    //     //     items: updatedPayment.items || [],
+    //     //     subscriptions: populatedSubscriptions,
+    //     //     address: updatedPayment.address,
+    //     //     discountAmount: updatedPayment.discountAmount || 0,
+    //     //     platformFee: updatedPayment.platformFee || 0,
+    //     //   }),
+    //     // });
+    //   }
+    // } catch (emailError) {
+    //   console.error("Failed to send payment confirmation email:", emailError);
  
-    }
+    // }
 
     return handleResponse(res, 200, "Payment verified", updatedPayment);
   } catch (err) {
