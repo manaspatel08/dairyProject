@@ -109,8 +109,11 @@ export default function CheckoutDetails() {
               ...resp,
               paymentRecordId: data.paymentRecordId,
             });
-            toast.success("Payment successful");
-            navigate("/orders");
+            // toast.success("Payment successful");
+            // toast.success("Order Placed")
+            navigate("/orders", {
+  state: { justPlaced: true }
+});
           },
         }).open();
       };

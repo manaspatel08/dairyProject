@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const formatDate = (raw) => {
   if (!raw) return "—";
@@ -164,6 +166,12 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeOrder, setActiveOrder] = useState(null);
+  const location = useLocation();
+useEffect(() => {
+  if (location.state?.justPlaced) {
+    toast.success("Order Placed Successfully 🎉");
+  }
+}, []);
 
   useEffect(() => {
     let mounted = true;
