@@ -90,7 +90,7 @@ const WishlistPage = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      console.log('Adding to cart:', product);
+      // console.log('Adding to cart:', product);
       const productId = product._id || product.id;
       
       if (!productId) {
@@ -105,10 +105,10 @@ const WishlistPage = () => {
         imageUrl: product.imageUrl || product.image
       };
       
-      console.log('Adding to cart with data:', cartProduct);
+      // console.log('Adding to cart with data:', cartProduct);
       await addToCart(cartProduct, 1);
       
-      console.log('Removing from wishlist:', productId);
+      // console.log('Removing from wishlist:', productId);
       await removeFromWishlist(productId);
       
       toast.success("Product moved to cart");
@@ -119,7 +119,7 @@ const WishlistPage = () => {
       }
     }
   };
-  console.log("Products",products);
+  // console.log("Products",products);
   
 
   if (isLoading || wishlistLoading) {

@@ -300,7 +300,7 @@ export const WishlistProvider = ({ children }) => {
         items: normalizeItems(data?.items || []),
       });
 
-      toast.success("Added to wishlist");
+      // toast.success("Added to wishlist");
       return;
     }
 
@@ -315,7 +315,7 @@ export const WishlistProvider = ({ children }) => {
       };
     });
 
-    toast.success("Added to wishlist");
+    // toast.success("Added to wishlist");
   };
 
   /* ------------------ REMOVE ------------------ */
@@ -329,7 +329,7 @@ export const WishlistProvider = ({ children }) => {
         items: normalizeItems(data?.items || []),
       });
 
-      toast.success("Removed from wishlist");
+      // toast.success("Removed from wishlist");
       return;
     }
 
@@ -339,7 +339,7 @@ export const WishlistProvider = ({ children }) => {
       ),
     }));
 
-    toast.success("Removed from wishlist");
+    // toast.success("Removed from wishlist");
   };
 
   /* ------------------ CHECK ------------------ */
