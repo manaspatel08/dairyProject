@@ -177,11 +177,23 @@ export const deleteProduct = async (req, res) => {
  
 export const getAllProducts = async (req, res) => {
   try {
+    // Add pagination support (backward compatible)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 500; // Higher default limit for backward compatibility
+    const skip = (page - 1) * limit;
+
+    // Select only necessary fields for better performance
+    // Use lean() for better performance when not modifying documents
     const products = await Product.find()
+      .select("name price oldPrice imageUrl tag rating brand stock store category createdAt")
       .populate("store", "Store_Name")
       .populate("category", "name")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
 
+    // Return products array directly for backward compatibility
     return handleResponse(res, 200, "Products fetched", products);
   } catch (error) {
     return handleResponse(res, 500, "Server Error", { error: error.message });
@@ -278,7 +290,7 @@ export const searchProducts = async (req, res) => {
         break;
       case "rating_desc":
         sortOption = { rating: -1 };
-        break;2
+        break;
       case "rating_asc":
         sortOption = { rating: 1 };
         break;
@@ -291,10 +303,13 @@ export const searchProducts = async (req, res) => {
         break;
     }
  
+    // Optimize: Use select and lean for better performance
     const products = await Product.find(filter)
+      .select("name price oldPrice imageUrl tag rating brand stock store category createdAt")
       .populate("store", "Store_Name")
       .populate("category", "name")
-      .sort(sortOption);
+      .sort(sortOption)
+      .lean();
 
     return handleResponse(res, 200, "Search results", products);
   } catch (error) {

@@ -23,4 +23,10 @@ const PaymentSchema = new mongoose.Schema({
   status: { type: String, enum: ["created", "paid", "failed"], default: "created" },
 }, { timestamps: true });
 
+// Add indexes for performance
+PaymentSchema.index({ user: 1 });
+PaymentSchema.index({ status: 1 });
+PaymentSchema.index({ createdAt: -1 });
+PaymentSchema.index({ razorpayOrderId: 1 });
+
 export default mongoose.model("Payment", PaymentSchema);

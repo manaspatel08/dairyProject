@@ -12,4 +12,7 @@ const WishlistSchema = new mongoose.Schema({
   items: [WishlistItemSchema],
 }, { timestamps: true });
 
+// Add indexes for performance
+WishlistSchema.index({ user: 1 });
+
 export default mongoose.model("Wishlist", WishlistSchema);

@@ -27,4 +27,7 @@ const SubscriptionDraftSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add indexes for performance
+SubscriptionDraftSchema.index({ user: 1 });
+
 export default mongoose.model("SubscriptionDraft", SubscriptionDraftSchema);

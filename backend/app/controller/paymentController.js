@@ -252,8 +252,11 @@ export const verifyPayment = async (req, res) => {
       return handleResponse(res, 404, "Payment not found");
     }
  
-    const cart = await Cart.findOne({ user: payment.user });
-    const draft = await SubscriptionDraft.findOne({ user: payment.user });
+    // Optimize: Fetch cart and draft in parallel
+    const [cart, draft] = await Promise.all([
+      Cart.findOne({ user: payment.user }),
+      SubscriptionDraft.findOne({ user: payment.user })
+    ]);
 
     let finalSubscriptions = [];
 
@@ -314,15 +317,22 @@ export const verifyPayment = async (req, res) => {
         const platformFee = discountedSubtotal > 0 && discountedSubtotal < 100 ? 20 : 0;
         const totalAmount = discountedSubtotal + platformFee;
  
-        const createdSubs = [];
+        // Optimize: Fetch all products at once instead of one by one
+        const productIds = updatedDraft.subscriptions
+          .map(sub => sub.productId?.toString() || sub.productId)
+          .filter(id => cartItemMap.has(id));
+        
+        const products = await Product.find({ _id: { $in: productIds } }).select("name price imageUrl _id");
+        const productMap = new Map(products.map(p => [p._id.toString(), p]));
+
+        // Prepare subscriptions for bulk insert
+        const subscriptionsToCreate = [];
         for (const draftSub of updatedDraft.subscriptions) {
           const productId = draftSub.productId?.toString() || draftSub.productId;
           const cartItem = cartItemMap.get(productId);
+          const product = productMap.get(productId);
           
-          if (!cartItem) continue;  
-
-          const product = await Product.findById(productId);
-          if (!product) continue;
+          if (!cartItem || !product) continue;
 
           const itemSubConfig = SUBSCRIPTION_CONFIG.types[draftSub.subscriptionType || subscriptionType] || {};
           
@@ -332,13 +342,13 @@ export const verifyPayment = async (req, res) => {
             days: draftSub.days || [],
             monthlyDay: draftSub.monthlyDay || null,
           });
- 
+
           const itemDiscountPercent = itemSubConfig.discountPercent || discountPercent;
           const subscriptionBaseAmount = product.price * (cartItem.quantity || 1) * numberOfDeliveries;
           const subscriptionDiscountAmount = (subscriptionBaseAmount * itemDiscountPercent) / 100;
           const subscriptionPrepaidAmount = subscriptionBaseAmount - subscriptionDiscountAmount;
 
-          const sub = await Subscription.create({
+          subscriptionsToCreate.push({
             user: payment.user,
             product: productId,
             productName: product.name,
@@ -362,8 +372,13 @@ export const verifyPayment = async (req, res) => {
             endDate: endDate,
             prepaidAmount: subscriptionPrepaidAmount,  
           });
+        }
 
-          createdSubs.push(sub._id);
+        // Bulk insert subscriptions (much faster than individual creates)
+        const createdSubs = [];
+        if (subscriptionsToCreate.length > 0) {
+          const insertedSubs = await Subscription.insertMany(subscriptionsToCreate);
+          createdSubs.push(...insertedSubs.map(s => s._id));
         }
 
         finalSubscriptions = createdSubs;
@@ -393,15 +408,17 @@ export const verifyPayment = async (req, res) => {
       finalSubscriptions = payment.subscriptions || [];
     }
  
-    await Cart.findOneAndUpdate(
-      { user: payment.user },
-      { items: [] }
-    );
- 
-    await SubscriptionDraft.findOneAndDelete({
-      user: payment.user,
-    });
- 
+    // Optimize: Execute cleanup operations in parallel
+    await Promise.all([
+      Cart.findOneAndUpdate(
+        { user: payment.user },
+        { items: [] }
+      ),
+      SubscriptionDraft.findOneAndDelete({
+        user: payment.user,
+      })
+    ]);
+
     const updatedPayment = await Payment.findByIdAndUpdate(
       paymentRecordId,
       {

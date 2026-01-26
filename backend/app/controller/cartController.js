@@ -31,7 +31,7 @@ export const addToCart = async (req, res) => {
     const { productId, quantity = 1 } = req.body;
     if (!productId) return handleResponse(res, 400, "productId required");
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).select("name price imageUrl");
     if (!product) return handleResponse(res, 404, "Product not found");
 
     const cart = await findOrCreateCart(userId);
@@ -52,8 +52,10 @@ export const addToCart = async (req, res) => {
     await cart.save();
     await cart.populate("items.product", "name imageUrl price");
     
-    // Update subscription draft to match current cart
-    await updateSubscriptionDraftFromCart(userId, cart);
+    // Update subscription draft asynchronously (non-blocking)
+    updateSubscriptionDraftFromCart(userId, cart).catch(err => {
+      console.error("Error updating subscription draft:", err);
+    });
     
     return handleResponse(res, 200, "Item added to cart", cart);
   } catch (err) {
@@ -80,8 +82,10 @@ export const deleteFromCart = async (req, res) => {
     await cart.save();
     await cart.populate("items.product", "name imageUrl price");
     
-    // Update subscription draft to match current cart
-    await updateSubscriptionDraftFromCart(userId, cart);
+    // Update subscription draft asynchronously (non-blocking)
+    updateSubscriptionDraftFromCart(userId, cart).catch(err => {
+      console.error("Error updating subscription draft:", err);
+    });
     
     return handleResponse(res, 200, "Item removed", cart);
   } catch (err) {
@@ -107,8 +111,10 @@ export const incrementProduct = async (req, res) => {
     await cart.save();
     await cart.populate("items.product", "name imageUrl price");
     
-    // Update subscription draft to match current cart
-    await updateSubscriptionDraftFromCart(userId, cart);
+    // Update subscription draft asynchronously (non-blocking)
+    updateSubscriptionDraftFromCart(userId, cart).catch(err => {
+      console.error("Error updating subscription draft:", err);
+    });
     
     return handleResponse(res, 200, "Quantity incremented", cart);
   } catch (err) {
@@ -136,8 +142,10 @@ export const decrementProduct = async (req, res) => {
     await cart.save();
     await cart.populate("items.product", "name imageUrl price");
     
-    // Update subscription draft to match current cart
-    await updateSubscriptionDraftFromCart(userId, cart);
+    // Update subscription draft asynchronously (non-blocking)
+    updateSubscriptionDraftFromCart(userId, cart).catch(err => {
+      console.error("Error updating subscription draft:", err);
+    });
     
     return handleResponse(res, 200, "Quantity updated", cart);
   } catch (err) {

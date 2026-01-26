@@ -31,7 +31,7 @@ export const addToWishlist = async (req, res) => {
     const { productId } = req.body;
     if (!productId) return handleResponse(res, 400, "productId is required");
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).select("name price imageUrl");
     if (!product) return handleResponse(res, 404, "Product not found");
 
     const wishlist = await findOrCreateWishlist(userId);
@@ -49,10 +49,10 @@ export const addToWishlist = async (req, res) => {
       await wishlist.save();
     }
  
-    const populatedWishlist = await Wishlist.findById(wishlist._id)
-      .populate("items.product", "name imageUrl price _id");
+    // Optimize: populate existing wishlist instead of querying again
+    await wishlist.populate("items.product", "name imageUrl price _id");
 
-    return handleResponse(res, 200, "Added to wishlist", populatedWishlist);
+    return handleResponse(res, 200, "Added to wishlist", wishlist);
   } catch (err) {
     return handleResponse(res, 500, "Server Error", { error: err.message });
   }
@@ -70,14 +70,11 @@ export const removeFromWishlist = async (req, res) => {
       { user: userId },
       { $pull: { items: { product: productId } } },
       { new: true }
-    );
+    ).populate("items.product", "name imageUrl price _id");
 
     if (!wishlist) return handleResponse(res, 404, "Wishlist not found");
     
-    const populatedWishlist = await Wishlist.findById(wishlist._id)
-      .populate("items.product", "name imageUrl price _id");
-    
-    return handleResponse(res, 200, "Removed from wishlist", populatedWishlist);
+    return handleResponse(res, 200, "Removed from wishlist", wishlist);
   } catch (err) {
     return handleResponse(res, 500, "Server Error", { error: err.message });
   }

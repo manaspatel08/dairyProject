@@ -13,4 +13,7 @@ const CartSchema = new mongoose.Schema({
   items: [CartItemSchema],
 }, { timestamps: true });
 
+// Add indexes for performance
+CartSchema.index({ user: 1 });
+
 export default mongoose.model("Cart", CartSchema);

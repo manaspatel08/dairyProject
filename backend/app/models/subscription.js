@@ -56,4 +56,10 @@ const SubscriptionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add indexes for performance
+SubscriptionSchema.index({ user: 1 });
+SubscriptionSchema.index({ status: 1 });
+SubscriptionSchema.index({ nextDeliveryDate: 1 });
+SubscriptionSchema.index({ product: 1 });
+
 export default mongoose.model("Subscription", SubscriptionSchema);

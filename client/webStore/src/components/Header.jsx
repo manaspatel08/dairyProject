@@ -73,11 +73,11 @@ export default function Header() {
             </button>
 
             <div className="flex-grow-1 text-center fw-semibold fs-5 d-flex justify-content-center">
-              DairyProduct
+              Daily Drop
             </div>
 
             <div className="d-none d-md-flex ms-auto small text-muted fw-semibold">
-              📞 +123 (456) 7890
+              📞 +123 456 7890
             </div>
 
             <div className="d-md-none ms-2">
